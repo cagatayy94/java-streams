@@ -11,12 +11,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 public class TransformationsMapAndReduce {
 
     @Test
     void yourFirstTransformationWithMap() throws IOException {
         List<Person> people = MockData.getPeople();
+
+        List<PersonDTO> dtos = people.stream()
+                .filter(person -> person.getAge() > 18)
+                .map(person -> new PersonDTO(
+                        person.getId(),
+                        person.getFirstName(),
+                        person.getAge()))
+                .collect(Collectors.toList());
+
+        //Same think here
+        List<PersonDTO> dtos2 = people.stream()
+                .filter(person -> person.getAge() > 18)
+                .map(PersonDTO::map)
+                .collect(Collectors.toList());
+
+        dtos.forEach(System.out::println);
     }
 
     @Test
